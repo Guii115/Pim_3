@@ -1,0 +1,15 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\bin\\Release",
+    "\\Controllers",
+    "\\DTOs",
+    "\\Models",
+    "\\obj",
+    "\\Properties",
+    "\\Repositories",
+    "\\Services"
+  ],
+  "SelectedNode": "\\Repositories\\CaixaRepository.cs",
+  "PreviewInSolutionExplorer": false
+}

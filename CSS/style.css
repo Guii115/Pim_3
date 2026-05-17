@@ -1,0 +1,438 @@
+/* =========================
+   RESET E CONFIGURAÇÕES BASE
+========================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Inter, Arial, sans-serif;
+}
+
+:root {
+  --bg: #080812;
+  --sidebar: #0d0d1c;
+  --topbar: #0b0b18;
+  --panel: #151528;
+  --card: #17172a;
+  --input: #101022;
+  --border: #303057;
+  --text: #f4f4ff;
+  --muted: #9999bd;
+
+  --purple: #b84cff;
+  --blue: #00d9ff;
+  --green: #35ff8a;
+  --pink: #ff4fb8;
+  --danger: #ff3d5a;
+  --warning: #ffbd2e;
+
+  --radius-sm: 10px;
+  --radius-md: 12px;
+  --radius-lg: 14px;
+}
+
+/* =========================
+   TEMA CLARO
+========================= */
+
+body.light {
+  --bg: #f3f5fb;
+  --sidebar: #ffffff;
+  --topbar: #ffffff;
+  --panel: #ffffff;
+  --card: #ffffff;
+  --input: #f1f3f8;
+  --border: #d9deef;
+  --text: #17172a;
+  --muted: #60667a;
+}
+
+/* =========================
+   ESTRUTURA GERAL
+========================= */
+
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+.app {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main {
+  flex: 1;
+}
+
+.content {
+  padding: 24px 28px;
+}
+
+section {
+  display: none;
+}
+
+section.active {
+  display: block;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar {
+  width: 250px;
+  background: var(--sidebar);
+  border-right: 1px solid var(--border);
+  padding: 24px 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 36px;
+}
+
+.logo span {
+  color: var(--blue);
+}
+
+.menu button {
+  width: 100%;
+  background: transparent;
+  color: var(--muted);
+  border: none;
+  padding: 14px;
+  margin-bottom: 8px;
+  border-radius: var(--radius-sm);
+  text-align: left;
+  cursor: pointer;
+  font-size: 15px;
+  transition: 0.2s;
+}
+
+.menu button:hover,
+.menu button.active {
+  background: linear-gradient(90deg, #7b2cff, #00d9ff30);
+  color: var(--text);
+}
+
+.version {
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* =========================
+   TOPO
+========================= */
+
+.topbar {
+  height: 69px;
+  border-bottom: 1px solid var(--border);
+  background: var(--topbar);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+}
+
+.topbar h1 {
+  font-size: 22px;
+}
+
+#dataHora {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* =========================
+   CARDS
+========================= */
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  box-shadow: 0 0 25px #00000020;
+}
+
+.card small {
+  color: var(--muted);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.card h2 {
+  margin-top: 14px;
+  font-size: 28px;
+}
+
+.neon-purple {
+  border-top: 4px solid var(--purple);
+}
+
+.neon-blue {
+  border-top: 4px solid var(--blue);
+}
+
+.neon-green {
+  border-top: 4px solid var(--green);
+}
+
+.neon-pink {
+  border-top: 4px solid var(--pink);
+}
+
+/* =========================
+   PAINÉIS
+========================= */
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  margin-top: 20px;
+}
+
+.panel h2 {
+  margin-bottom: 18px;
+}
+
+/* =========================
+   FORMULÁRIOS E ERROS
+========================= */
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 12px;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 13px;
+  background: var(--input);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: var(--radius-sm);
+  outline: none;
+}
+
+input:focus,
+select:focus {
+  border-color: var(--blue);
+}
+
+input::placeholder {
+  color: var(--muted);
+}
+
+.erro-mensagem {
+  color: var(--danger);
+  font-size: 0.75rem;
+  font-weight: bold;
+  margin-top: 4px;
+  display: block;
+  height: 14px;
+}
+
+/* =========================
+   SUGESTÕES DE CLIENTE NO PDV
+========================= */
+
+.sugestoes-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.sugestoes-container {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #121224;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  max-height: 180px;
+  overflow-y: auto;
+  z-index: 999;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+}
+
+.sugestao-item {
+  padding: 11px 14px;
+  cursor: pointer;
+  color: var(--text);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  font-size: 0.9rem;
+  transition: background 0.15s;
+}
+
+.sugestao-item:hover {
+  background: linear-gradient(90deg, #7b2cff, rgba(0, 217, 255, 0.2));
+  color: #ffffff;
+}
+
+/* =========================
+   BOTÕES
+========================= */
+
+.btn {
+  background: linear-gradient(90deg, #8a35ff, var(--blue));
+  color: #ffffff;
+  border: none;
+  padding: 13px 18px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-weight: 700;
+  transition: 0.2s;
+}
+
+.btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.btn-danger {
+  background: var(--danger);
+}
+
+.btn-edit {
+  background: var(--warning);
+  color: #111111;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* =========================
+   TABELAS
+========================= */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  color: var(--muted);
+  font-size: 12px;
+  text-transform: uppercase;
+  padding: 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+td {
+  padding: 14px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+
+/* =========================
+   IMAGENS
+========================= */
+
+img {
+  width: 55px;
+  height: 55px;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+}
+
+/* =========================
+   PRODUTOS NO PDV
+========================= */
+
+.product-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  margin-bottom: 10px;
+}
+
+.product-info {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* =========================
+   CARRINHO
+========================= */
+
+.cart-item {
+  background: var(--input);
+  border: 1px solid var(--border);
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 8px;
+}
+
+/* =========================
+   RESPONSIVO
+========================= */
+
+@media (max-width: 800px) {
+  .app {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+  }
+
+  .menu {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+  }
+
+  .topbar {
+    height: auto;
+    padding: 18px;
+    gap: 10px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .content {
+    padding: 18px;
+  }
+
+  table {
+    font-size: 12px;
+  }
+
+  .product-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+}

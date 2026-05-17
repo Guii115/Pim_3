@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GameShop</title>
+  <link rel="stylesheet" href="../CSS/style.css">
+</head>
+
+<body>
+
+  <div id="loginOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);
+  z-index:9999;align-items:center;justify-content:center;">
+    <div style="background:#1a1a2e;padding:2rem;border-radius:12px;width:320px;
+    border:1px solid #7c3aed;display:flex;flex-direction:column;gap:1rem;">
+      <h2 style="text-align:center;color:#a78bfa;">🎮 GameShop</h2>
+      <input id="inputLogin" type="text" placeholder="Login"
+        style="padding:0.7rem;border-radius:8px;border:1px solid #333;background:#0f0f23;color:#fff;">
+      <input id="inputSenha" type="password" placeholder="Senha"
+        style="padding:0.7rem;border-radius:8px;border:1px solid #333;background:#0f0f23;color:#fff;"
+        onkeydown="if(event.key==='Enter') fazerLogin()">
+      <p id="erroLogin" style="color:#f87171;font-size:0.85rem;text-align:center;margin:0;"></p>
+      <button class="btn" onclick="fazerLogin()">Entrar</button>
+    </div>
+  </div>
+
+  <div class="app">
+
+    <aside class="sidebar">
+      <div>
+        <div class="logo">🎮 GameShop <span>PDV</span></div>
+
+        <div class="menu">
+          <button class="active" onclick="mostrarTela('dashboard', this)">📊 Dashboard</button>
+          <button onclick="mostrarTela('produtos', this)">📦 Produtos</button>
+          <button onclick="mostrarTela('clientes', this)">👥 Clientes</button>
+          <button id="btnMenuFuncionarios" onclick="mostrarTela('funcionarios', this)">💼 Funcionários</button>
+          <button onclick="mostrarTela('pdv', this)">🛒 Frente de Caixa</button>
+          <button onclick="mostrarTela('vendas', this)">🧾 Histórico</button>
+          <button onclick="mostrarTela('relatorio', this)">📅 Relatório Mensal</button>
+          <button onclick="mostrarTela('caixa', this)">💰 Fechamento</button>
+          <button onclick="mostrarTela('configuracoes', this)">⚙️ Configurações</button>
+        </div>
+      </div>
+
+      <div class="version">v2.0 • API</div>
+    </aside>
+
+    <main class="main">
+      <div class="topbar">
+        <h1 id="tituloTela">Dashboard</h1>
+        <div style="display:flex;align-items:center;gap:1rem;">
+          <span id="nomeUsuarioLogado" style="font-size:0.85rem;opacity:0.7;"></span>
+          <div id="dataHora"></div>
+          <button class="btn btn-danger" onclick="fazerLogout()"
+            style="padding:0.3rem 0.8rem;font-size:0.8rem;">Sair</button>
+        </div>
+      </div>
+
+      <div class="content">
+
+        <section id="dashboard" class="active">
+          <div class="cards">
+            <div class="card neon-purple">
+              <small>Produtos cadastrados</small>
+              <h2 id="totalProdutos">0</h2>
+            </div>
+            <div class="card neon-blue">
+              <small>Itens em estoque</small>
+              <h2 id="totalEstoque">0</h2>
+            </div>
+            <div class="card neon-green">
+              <small>Vendas hoje</small>
+              <h2 id="totalVendasDia">0</h2>
+            </div>
+            <div class="card neon-pink">
+              <small>Faturamento hoje</small>
+              <h2 id="faturamentoDia">R$ 0,00</h2>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h2>Últimas vendas</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Data</th>
+                  <th>Cliente</th>
+                  <th>Itens</th>
+                  <th>Pagamento</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody id="ultimasVendas"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="produtos">
+          <div class="panel">
+            <h2>Cadastro de Produtos</h2>
+
+            <input type="hidden" id="produtoEditando">
+
+            <div class="form-grid">
+              <input type="file" id="fotoProduto" accept="image/*">
+
+              <input type="text" id="codigoFiscalProduto" placeholder="Código (gerado automaticamente)" readonly
+                style="background:#1a1a2e;cursor:not-allowed;opacity:0.6;">
+
+              <input type="text" id="nomeProduto" placeholder="Nome do produto">
+
+              <select id="categoriaProduto" onchange="onCategoriaChange()">
+                <option value="">Selecione a categoria</option>
+                <option value="1">Jogos Mídia Física</option>
+                <option value="2">Acessórios</option>
+                <option value="3">Consoles</option>
+              </select>
+
+              <div id="campoPlatforma" style="display:none;">
+                <select id="plataformaProduto" style="width:100%;">
+                  <option value="">Selecione a plataforma</option>
+                  <option>PlayStation</option>
+                  <option>Xbox</option>
+                  <option>Nintendo</option>
+                  <option>PC</option>
+                  <option>Outro</option>
+                </select>
+              </div>
+
+              <input type="number" id="precoProduto" placeholder="Preço (R$)" min="0" step="0.01">
+              <input type="number" id="quantidadeProduto" placeholder="Quantidade em estoque" min="0">
+            </div>
+
+            <br>
+            <button class="btn" onclick="salvarProduto()">Salvar Produto</button>
+          </div>
+
+          <div class="panel">
+            <h2>Produtos cadastrados</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Foto</th>
+                  <th>Código</th>
+                  <th>Nome</th>
+                  <th>Categoria</th>
+                  <th>Plataforma</th>
+                  <th>Preço</th>
+                  <th>Qtd</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="listaProdutos"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="clientes">
+          <div class="panel">
+            <h2>Cadastro de Clientes</h2>
+
+            <input type="hidden" id="clienteEditando">
+
+            <div class="form-grid">
+              <div>
+                <input type="text" id="nomeCliente" placeholder="Nome completo">
+                <p id="erroNome" class="erro-mensagem"></p>
+              </div>
+
+              <div>
+                <input type="text" id="cpfCliente" placeholder="CPF" maxlength="14">
+                <p id="erroCpf" class="erro-mensagem"></p>
+              </div>
+
+              <div>
+                <input type="text" id="telefoneCliente" placeholder="Telefone" maxlength="15">
+                <p id="erroTelefone" class="erro-mensagem"></p>
+              </div>
+
+              <div>
+                <input type="email" id="emailCliente" placeholder="E-mail">
+                <p id="erroEmail" class="erro-mensagem"></p>
+              </div>
+            </div>
+            <br>
+            <div class="actions">
+              <button class="btn" onclick="salvarCliente()">Salvar Cliente</button>
+              <button class="btn btn-danger" onclick="limparFormularioCliente()"
+                style="background: var(--muted); color: #fff;">Cancelar / Limpar</button>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h2>Clientes cadastrados</h2>
+
+            <div style="margin-bottom: 1rem;">
+              <input type="text" id="buscarCliente" placeholder="🔍 Buscar cliente pelo nome..."
+                oninput="filtrarClientes()">
+            </div>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>CPF</th>
+                  <th>Telefone</th>
+                  <th>E-mail</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="listaClientes"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="funcionarios">
+          <div class="panel">
+            <h2>Cadastro de Funcionários (Apenas Gerente)</h2>
+
+            <div class="form-grid">
+              <div>
+                <input type="text" id="nomeFuncionario" placeholder="Nome completo">
+              </div>
+              <div>
+                <input type="text" id="cpfFuncionario" placeholder="CPF" maxlength="14">
+              </div>
+              <div>
+                <input type="text" id="telefoneFuncionario" placeholder="Telefone" maxlength="15">
+              </div>
+              <div>
+                <input type="email" id="emailFuncionario" placeholder="E-mail">
+              </div>
+            </div>
+
+            <br>
+            <div class="form-grid">
+              <div>
+                <input type="text" id="cargoFuncionario" placeholder="Cargo (Ex: Funcionario ou Gerente)">
+              </div>
+              <div>
+                <input type="number" id="salarioFuncionario" placeholder="Salário (R$)" step="0.01">
+              </div>
+              <div>
+                <input type="text" id="loginFuncionario" placeholder="Nome de Usuário (Login)">
+              </div>
+              <div>
+                <input type="password" id="senhaFuncionario" placeholder="Senha de Acesso">
+              </div>
+            </div>
+
+            <br>
+            <button class="btn" onclick="salvarFuncionario()">Cadastrar Funcionário</button>
+          </div>
+        </section>
+
+        <section id="pdv">
+          <div class="panel">
+            <h2>Frente de Caixa</h2>
+            <input type="text" id="buscarProduto" placeholder="Buscar produto pelo nome" oninput="buscarProdutosPDV()">
+            <br><br>
+            <div id="resultadoBusca"></div>
+          </div>
+
+          <div class="panel">
+            <h2>Carrinho</h2>
+            <div id="itensCarrinho"></div>
+
+            <hr style="border:0; border-top:1px solid var(--border); margin: 20px 0;">
+
+            <h3>👤 Seleção do Cliente</h3>
+            <br>
+            <div class="form-grid" style="grid-template-columns: 1fr;">
+              <div class="sugestoes-wrapper">
+                <input type="text" id="buscarClientePDV" placeholder="🔍 Digite o nome do cliente para pesquisar..."
+                  oninput="buscarClientesPDV()" autocomplete="off">
+                <div id="listaSugestoesCliente" class="sugestoes-container" style="display:none;"></div>
+              </div>
+            </div>
+
+            <input type="hidden" id="vendaClienteId">
+
+            <br>
+            <div class="form-grid">
+              <div>
+                <small style="color: var(--muted);">Nome do Cliente</small>
+                <input type="text" id="vendaClienteNome" placeholder="Nenhum cliente selecionado" readonly
+                  style="opacity:0.6; background:var(--bg); cursor:not-allowed;">
+              </div>
+              <div>
+                <small style="color: var(--muted);">CPF</small>
+                <input type="text" id="vendaClienteCpf" placeholder="-" readonly
+                  style="opacity:0.6; background:var(--bg); cursor:not-allowed;">
+              </div>
+              <div>
+                <small style="color: var(--muted);">Telefone</small>
+                <input type="text" id="vendaClienteTelefone" placeholder="-" readonly
+                  style="opacity:0.6; background:var(--bg); cursor:not-allowed;">
+              </div>
+              <div>
+                <small style="color: var(--muted);">E-mail</small>
+                <input type="text" id="vendaClienteEmail" placeholder="-" readonly
+                  style="opacity:0.6; background:var(--bg); cursor:not-allowed;">
+              </div>
+            </div>
+
+            <br>
+            <hr style="border:0; border-top:1px solid var(--border); margin: 10px 0 20px 0;">
+
+            <div class="form-grid">
+              <div>
+                <small style="color: var(--muted);">Desconto (R$)</small>
+                <input type="number" id="descontoVenda" placeholder="Desconto (R$)" value="0" min="0">
+              </div>
+
+              <div>
+                <small style="color: var(--muted);">Forma de Pagamento</small>
+                <select id="formaPagamento">
+                  <option value="dinheiro">Dinheiro</option>
+                  <option value="pix">Pix</option>
+                  <option value="debito">Cartão de Débito</option>
+                  <option value="credito">Cartão de Crédito</option>
+                </select>
+              </div>
+
+              <div>
+                <small style="color: var(--muted);">Valor Pago (Em dinheiro)</small>
+                <input type="number" id="valorPago" placeholder="Valor pago (Dinheiro)" min="0" step="0.01">
+              </div>
+            </div>
+
+            <br>
+            <h2>Total: <span id="totalCarrinho">R$ 0,00</span></h2>
+            <h3>Troco: <span id="trocoVenda">R$ 0,00</span></h3>
+            <br>
+            <button class="btn" onclick="finalizarVenda()">Finalizar Venda</button>
+          </div>
+        </section>
+
+        <section id="vendas">
+          <div class="panel">
+            <h2>Filtros do Histórico</h2>
+            <div class="form-grid">
+              <input type="date" id="filtroDataVenda">
+              <input type="text" id="filtroCpfVenda" placeholder="Filtrar por CPF">
+              <select id="filtroPagamentoVenda">
+                <option value="">Todas as formas</option>
+                <option value="dinheiro">Dinheiro</option>
+                <option value="pix">Pix</option>
+                <option value="debito">Cartão de Débito</option>
+                <option value="credito">Cartão de Crédito</option>
+              </select>
+            </div>
+            <br>
+            <div class="actions">
+              <button class="btn" onclick="listarVendas()">Aplicar Filtros</button>
+              <button class="btn btn-danger" onclick="limparFiltrosVendas()">Limpar Filtros</button>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h2>Histórico de Vendas</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Data</th>
+                  <th>Cliente</th>
+                  <th>Produtos</th>
+                  <th>Total</th>
+                  <th>Pagamento</th>
+                </tr>
+              </thead>
+              <tbody id="listaVendas"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="relatorio">
+          <div class="panel">
+            <h2>Relatório Mensal</h2>
+            <div class="form-grid">
+              <input type="month" id="mesRelatorio">
+            </div>
+            <br>
+            <button class="btn" onclick="gerarRelatorioMensal()">Gerar Relatório</button>
+          </div>
+
+          <div class="cards">
+            <div class="card neon-green">
+              <small>Vendas no mês</small>
+              <h2 id="relQtdVendas">0</h2>
+            </div>
+            <div class="card neon-pink">
+              <small>Faturamento mensal</small>
+              <h2 id="relFaturamento">R$ 0,00</h2>
+            </div>
+            <div class="card neon-blue">
+              <small>Itens vendidos</small>
+              <h2 id="relItensVendidos">0</h2>
+            </div>
+            <div class="card neon-purple">
+              <small>Ticket médio</small>
+              <h2 id="relTicketMedio">R$ 0,00</h2>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h2>Total por Forma de Pagamento</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Forma</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody id="relPagamentos"></tbody>
+            </table>
+          </div>
+
+          <div class="panel">
+            <h2>Produtos Mais Vendidos</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Produto</th>
+                  <th>Quantidade</th>
+                  <th>Total vendido</th>
+                </tr>
+              </thead>
+              <tbody id="relProdutos"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="caixa">
+          <div class="panel">
+            <h2>Abertura de Caixa</h2>
+            <div class="form-grid">
+              <input type="number" id="dinheiroInicialCaixa" placeholder="Valor inicial para troco (R$)" min="0"
+                step="0.01">
+            </div>
+            <br>
+            <div class="actions">
+              <button class="btn" onclick="salvarDinheiroInicial()">Abrir Caixa</button>
+              <button class="btn btn-danger" onclick="fecharCaixa()">Fechar Caixa</button>
+            </div>
+            <p id="statusCaixa" style="margin-top:1rem;opacity:0.7;"></p>
+          </div>
+
+          <div class="cards">
+            <div class="card neon-green">
+              <small>Dinheiro</small>
+              <h2 id="caixaDinheiro">R$ 0,00</h2>
+            </div>
+            <div class="card neon-blue">
+              <small>Pix</small>
+              <h2 id="caixaPix">R$ 0,00</h2>
+            </div>
+            <div class="card neon-purple">
+              <small>Débito</small>
+              <h2 id="caixaDebito">R$ 0,00</h2>
+            </div>
+            <div class="card neon-pink">
+              <small>Crédito</small>
+              <h2 id="caixaCredito">R$ 0,00</h2>
+            </div>
+            <div class="card neon-green">
+              <small>Total Geral</small>
+              <h2 id="caixaTotal">R$ 0,00</h2>
+            </div>
+          </div>
+        </section>
+
+        <section id="configuracoes">
+          <div class="panel">
+            <h2>Configurações</h2>
+            <div class="form-grid">
+              <select id="temaSistema">
+                <option value="dark">Tema Escuro</option>
+                <option value="light">Tema Claro</option>
+              </select>
+            </div>
+            <br>
+            <button class="btn" onclick="salvarConfiguracoes()">Salvar Configurações</button>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="../JavaScript/script.js"></script>
+</body>
+
+</html>
