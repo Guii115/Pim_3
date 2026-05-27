@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GameShop - Funcionários</title>
+  <link rel="stylesheet" href="../CSS/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar-container"></aside>
+    <main class="main">
+      <div class="topbar">
+        <h1 id="tituloTela">Funcionários</h1>
+        <div class="topbar-right">
+          <span id="nomeUsuarioLogado" class="topbar-usuario"></span>
+          <div id="dataHora"></div>
+          <button class="btn btn-danger topbar-btn-sair" onclick="fazerLogout()">Sair</button>
+        </div>
+      </div>
+      <div class="content">
+        <section id="funcionarios" style="display:block;">
+          <div class="panel">
+            <h2>Cadastro de Funcionários (Apenas Gerente)</h2>
+            <div class="form-grid">
+              <div>
+                <input type="text" id="nomeFuncionario" placeholder="Nome completo">
+                <p id="erroNomeFuncionario" class="erro-mensagem"></p>
+              </div>
+              <div>
+                <input type="text" id="cpfFuncionario" placeholder="CPF" maxlength="14">
+                <p id="erroCpfFuncionario" class="erro-mensagem"></p>
+              </div>
+              <div>
+                <input type="text" id="telefoneFuncionario" placeholder="Telefone" maxlength="15">
+                <p id="erroTelefoneFuncionario" class="erro-mensagem"></p>
+              </div>
+              <div>
+                <input type="email" id="emailFuncionario" placeholder="E-mail">
+                <p id="erroEmailFuncionario" class="erro-mensagem"></p>
+              </div>
+              <div>
+                <input type="text" id="loginFuncionario" placeholder="Nome de Usuário (Login)">
+                <p id="erroLoginFuncionario" class="erro-mensagem"></p>
+              </div>
+              <div>
+                <input type="password" id="senhaFuncionario" placeholder="Senha de Acesso">
+                <p id="erroSenhaFuncionario" class="erro-mensagem"></p>
+              </div>
+            </div>
+            <br>
+            <button class="btn" onclick="salvarFuncionario()">Cadastrar Funcionário</button>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script src="../JavaScript/script.js"></script>
+</body>
+</html>

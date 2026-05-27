@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GameShop - Configurações</title>
+  <link rel="stylesheet" href="../CSS/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar-container"></aside>
+    <main class="main">
+      <div class="topbar">
+        <h1 id="tituloTela">Configurações</h1>
+        <div class="topbar-right">
+          <span id="nomeUsuarioLogado" class="topbar-usuario"></span>
+          <div id="dataHora"></div>
+          <button class="btn btn-danger topbar-btn-sair" onclick="fazerLogout()">Sair</button>
+        </div>
+      </div>
+      <div class="content">
+        <section id="configuracoes" style="display:block;">
+          <div class="panel">
+            <h2>Configurações</h2>
+            <div class="form-grid">
+              <select id="temaSistema">
+                <option value="dark">Tema Escuro</option>
+                <option value="light">Tema Claro</option>
+              </select>
+            </div>
+            <br>
+            <button class="btn" onclick="salvarConfiguracoes()">Salvar Configurações</button>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script src="../JavaScript/script.js"></script>
+</body>
+</html>

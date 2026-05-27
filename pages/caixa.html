@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GameShop - Fechamento</title>
+  <link rel="stylesheet" href="../CSS/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar-container"></aside>
+    <main class="main">
+      <div class="topbar">
+        <h1 id="tituloTela">Fechamento</h1>
+        <div class="topbar-right">
+          <span id="nomeUsuarioLogado" class="topbar-usuario"></span>
+          <div id="dataHora"></div>
+          <button class="btn btn-danger topbar-btn-sair" onclick="fazerLogout()">Sair</button>
+        </div>
+      </div>
+      <div class="content">
+        <section id="caixa" style="display:block;">
+          <div class="panel">
+            <h2>Abertura de Caixa</h2>
+            <div class="form-grid">
+              <input type="number" id="dinheiroInicialCaixa" placeholder="Valor Inicial (R$)" min="0" step="0.01">
+            </div>
+            <br>
+            <div class="actions">
+              <button class="btn" onclick="salvarDinheiroInicial()">Abrir Caixa</button>
+              <button class="btn btn-danger" onclick="fecharCaixa()">Fechar Caixa</button>
+            </div>
+            <p id="statusCaixa" class="status-caixa"></p>
+          </div>
+          <div class="cards">
+            <div class="card neon-green">
+              <small>Dinheiro</small>
+              <h2 id="caixaDinheiro">R$ 0,00</h2>
+            </div>
+            <div class="card neon-blue">
+              <small>Pix</small>
+              <h2 id="caixaPix">R$ 0,00</h2>
+            </div>
+            <div class="card neon-purple">
+              <small>Débito</small>
+              <h2 id="caixaDebito">R$ 0,00</h2>
+            </div>
+            <div class="card neon-pink">
+              <small>Crédito</small>
+              <h2 id="caixaCredito">R$ 0,00</h2>
+            </div>
+            <div class="card neon-green">
+              <small>Total Geral</small>
+              <h2 id="caixaTotal">R$ 0,00</h2>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script src="../JavaScript/script.js"></script>
+</body>
+</html>

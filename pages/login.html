@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GameShop - Login</title>
+  <link rel="stylesheet" href="../CSS/style.css">
+</head>
+
+<body style="display:flex;align-items:center;justify-content:center;min-height:100vh;">
+
+  <div style="background:#1a1a2e;padding:2rem;border-radius:12px;width:320px;
+    border:1px solid #7c3aed;display:flex;flex-direction:column;gap:1rem;">
+    <h2 style="text-align:center;color:#a78bfa;">🎮 GameShop</h2>
+    <input id="inputLogin" type="text" placeholder="Login">
+    <input id="inputSenha" type="password" placeholder="Senha"
+      onkeydown="if(event.key==='Enter') fazerLogin()">
+    <p id="erroLogin" style="color:#f87171;font-size:0.85rem;text-align:center;margin:0;"></p>
+    <button class="btn" onclick="fazerLogin()">Entrar</button>
+  </div>
+
+  <script>
+    const API = 'http://localhost:5280/api';
+
+    // Se já tiver token, vai direto pro dashboard
+    if (localStorage.getItem('token')) {
+      window.location.href = 'dashboard.html';
+    }
+
+    async function fazerLogin() {
+      const login = document.getElementById('inputLogin').value.trim();
+      const senha = document.getElementById('inputSenha').value;
+      const erro  = document.getElementById('erroLogin');
+
+      erro.innerText = '';
+
+      if (!login || !senha) {
+        erro.innerText = 'Preencha login e senha.';
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API}/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ login, senha })
+        });
+
+        if (!res.ok) {
+          const data = await res.json().catch(() => ({}));
+          erro.innerText = data.mensagem || 'Login ou senha inválidos.';
+          return;
+        }
+
+        const data = await res.json();
+
+        // Salva token e dados do usuário
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('nome_usuario', data.nome);
+        localStorage.setItem('cargo_usuario', data.cargo);
+
+        // Extrai funcionario_id do payload JWT
+        const payload = JSON.parse(atob(data.token.split('.')[1]));
+        localStorage.setItem('funcionario_id', payload['funcionario_id']);
+        localStorage.setItem('usuario_id', payload['nameid'] || payload['unique_name'] || '');
+
+        window.location.href = 'dashboard.html';
+
+      } catch (e) {
+        erro.innerText = 'Erro ao conectar com o servidor.';
+      }
+    }
+  </script>
+
+</body>
+
+</html>

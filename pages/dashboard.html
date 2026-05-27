@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GameShop - Dashboard</title>
+  <link rel="stylesheet" href="../CSS/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar-container"></aside>
+    <main class="main">
+      <div class="topbar">
+        <h1 id="tituloTela">Dashboard</h1>
+        <div class="topbar-right">
+          <span id="nomeUsuarioLogado" class="topbar-usuario"></span>
+          <div id="dataHora"></div>
+          <button class="btn btn-danger topbar-btn-sair" onclick="fazerLogout()">Sair</button>
+        </div>
+      </div>
+      <div class="content">
+        <section id="dashboard" style="display:block;">
+          <div class="cards">
+            <div class="card neon-purple">
+              <small>Produtos cadastrados</small>
+              <h2 id="totalProdutos">0</h2>
+            </div>
+            <div class="card neon-blue">
+              <small>Itens em estoque</small>
+              <h2 id="totalEstoque">0</h2>
+            </div>
+            <div class="card neon-green">
+              <small>Vendas hoje</small>
+              <h2 id="totalVendasDia">0</h2>
+            </div>
+            <div class="card neon-pink">
+              <small>Faturamento hoje</small>
+              <h2 id="faturamentoDia">R$ 0,00</h2>
+            </div>
+          </div>
+          <div class="panel">
+            <h2>Últimas vendas</h2>
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Data</th>
+                    <th>Cliente</th>
+                    <th>Itens</th>
+                    <th>Pagamento</th>
+                    <th>Total</th>
+                  </tr>
+                </thead>
+                <tbody id="ultimasVendas"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script src="../JavaScript/script.js"></script>
+</body>
+</html>

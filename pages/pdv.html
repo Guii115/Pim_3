@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GameShop - Frente de Caixa</title>
+  <link rel="stylesheet" href="../CSS/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar-container"></aside>
+    <main class="main">
+      <div class="topbar">
+        <h1 id="tituloTela">Frente de Caixa</h1>
+        <div class="topbar-right">
+          <span id="nomeUsuarioLogado" class="topbar-usuario"></span>
+          <div id="dataHora"></div>
+          <button class="btn btn-danger topbar-btn-sair" onclick="fazerLogout()">Sair</button>
+        </div>
+      </div>
+      <div class="content">
+        <section id="pdv" style="display:block;">
+          <div class="panel">
+            <h2>Frente de Caixa</h2>
+            <input type="text" id="buscarProduto" placeholder="Buscar produto pelo nome" oninput="buscarProdutosPDV()">
+            <br><br>
+            <div id="resultadoBusca"></div>
+          </div>
+          <div class="panel">
+            <h2>Carrinho</h2>
+            <div id="itensCarrinho"></div>
+            <hr class="pdv-divider">
+            <h3><i class="fa-solid fa-user"></i> Seleção do Cliente</h3>
+            <br>
+            <div class="form-grid" style="grid-template-columns:1fr;">
+              <div class="sugestoes-wrapper">
+                <input type="text" id="buscarClientePDV" placeholder="Digite o nome do cliente para pesquisar..." oninput="buscarClientesPDV()" autocomplete="off">
+                <div id="listaSugestoesCliente" class="sugestoes-container" style="display:none;"></div>
+              </div>
+            </div>
+            <input type="hidden" id="vendaClienteId">
+            <br>
+            <div class="form-grid">
+              <div>
+                <small class="label-muted">Nome do Cliente</small>
+                <input type="text" id="vendaClienteNome" placeholder="Nenhum cliente selecionado" readonly>
+              </div>
+              <div>
+                <small class="label-muted">CPF</small>
+                <input type="text" id="vendaClienteCpf" placeholder="-" readonly>
+              </div>
+              <div>
+                <small class="label-muted">Telefone</small>
+                <input type="text" id="vendaClienteTelefone" placeholder="-" readonly>
+              </div>
+              <div>
+                <small class="label-muted">E-mail</small>
+                <input type="text" id="vendaClienteEmail" placeholder="-" readonly>
+              </div>
+            </div>
+            <br>
+            <hr class="pdv-divider">
+            <div class="form-grid">
+              <div>
+                <small class="label-muted">Desconto (R$)</small>
+                <input type="number" id="descontoVenda" placeholder="Desconto (R$)" value="0" min="0" oninput="atualizarCarrinho()">
+              </div>
+              <div>
+                <small class="label-muted">Forma de Pagamento</small>
+                <select id="formaPagamento" onchange="
+                  const pago = document.getElementById('valorPago');
+                  const isDinheiro = this.value === 'dinheiro';
+                  pago.disabled = !isDinheiro;
+                  pago.style.opacity = isDinheiro ? '1' : '0.3';
+                  if (!isDinheiro) pago.value = '';
+                  atualizarCarrinho();
+                ">
+                  <option value="dinheiro">Dinheiro</option>
+                  <option value="pix">Pix</option>
+                  <option value="debito">Cartão de Débito</option>
+                  <option value="credito">Cartão de Crédito</option>
+                </select>
+              </div>
+              <div>
+                <small class="label-muted">Valor Pago (Em dinheiro)</small>
+                <input type="number" id="valorPago" placeholder="Valor pago (Dinheiro)" min="0" step="0.01" oninput="atualizarCarrinho()" style="transition:opacity 0.3s;">
+              </div>
+            </div>
+            <br>
+            <h2>Total: <span id="totalCarrinho">R$ 0,00</span></h2>
+            <h3>Troco: <span id="trocoVenda">R$ 0,00</span></h3>
+            <br>
+            <button class="btn" onclick="finalizarVenda()">Finalizar Venda</button>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script src="../JavaScript/script.js"></script>
+</body>
+</html>

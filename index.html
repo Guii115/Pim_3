@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GameShop</title>
+</head>
+
+<body>
+
+  <script>
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      window.location.href = 'pages/login.html';
+    } else {
+      // Valida o token fazendo um GET autenticado (sem efeito colateral)
+      fetch('http://localhost:5000/api/produto', {
+        method: 'GET',
+        headers: { 'Authorization': `Bearer ${token}` }
+      })
+        .then(res => {
+          if (res.ok) {
+            window.location.href = 'pages/dashboard.html';
+          } else {
+            // Token expirado ou inválido — limpa o localStorage
+            localStorage.removeItem('token');
+            localStorage.removeItem('nome');
+            localStorage.removeItem('cargo');
+            window.location.href = 'pages/login.html';
+          }
+        })
+        .catch(() => {
+          // API offline — redireciona pro login por segurança
+          localStorage.removeItem('token');
+          localStorage.removeItem('nome');
+          localStorage.removeItem('cargo');
+          window.location.href = 'pages/login.html';
+        });
+    }
+  </script>
+
+</body>
+
+</html>

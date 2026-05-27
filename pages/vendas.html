@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GameShop - Histórico</title>
+  <link rel="stylesheet" href="../CSS/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar-container"></aside>
+    <main class="main">
+      <div class="topbar">
+        <h1 id="tituloTela">Histórico</h1>
+        <div class="topbar-right">
+          <span id="nomeUsuarioLogado" class="topbar-usuario"></span>
+          <div id="dataHora"></div>
+          <button class="btn btn-danger topbar-btn-sair" onclick="fazerLogout()">Sair</button>
+        </div>
+      </div>
+      <div class="content">
+        <section id="vendas" style="display:block;">
+          <div class="panel">
+            <h2>Filtros do Histórico</h2>
+            <div class="form-grid">
+              <input type="date" id="filtroDataVenda">
+              <input type="text" id="filtroCpfVenda" placeholder="Filtrar por CPF">
+              <select id="filtroPagamentoVenda">
+                <option value="">Todas as formas</option>
+                <option value="dinheiro">Dinheiro</option>
+                <option value="pix">Pix</option>
+                <option value="debito">Cartão de Débito</option>
+                <option value="credito">Cartão de Crédito</option>
+              </select>
+            </div>
+            <br>
+            <div class="actions">
+              <button class="btn" onclick="listarVendas()">Aplicar Filtros</button>
+              <button class="btn btn-danger" onclick="limparFiltrosVendas()">Limpar Filtros</button>
+            </div>
+          </div>
+          <div class="panel">
+            <h2>Histórico de Vendas</h2>
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Data</th>
+                    <th>Cliente</th>
+                    <th>Produtos</th>
+                    <th>Total</th>
+                    <th>Pagamento</th>
+                  </tr>
+                </thead>
+                <tbody id="listaVendas"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script src="../JavaScript/script.js"></script>
+</body>
+</html>
